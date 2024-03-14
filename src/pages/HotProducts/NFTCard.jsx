@@ -27,26 +27,28 @@ function NFTCard({ img, title, price, likes, sale }) {
 
     console.log(data);
     try {
-      const response = await fetch("http://localhost:5000/checkout", {
+      fetch("http://localhost:5000/checkout", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
-      });
-
-      if (response.ok) {
-        Swal.fire({
-          icon: "success",
-          title: "Success",
-          text: "Your bid has been submitted",
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok.");
+          }
+          return response.json(); 
+        })
+        .then((data) => {
+          
+          console.log(data);
+          window.location.href = data.invoice.result.url;
+          // You can now use the data received from the server
+        })
+        .catch((error) => {
+          console.error("Error:", error);
         });
-
-
-        // window.location.href= response.result;
-      }
-
-      console.log(response);
     } catch (error) {
       console.error(error);
       throw error;
