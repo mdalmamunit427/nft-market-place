@@ -33,7 +33,7 @@ function Navbar() {
                 return (
                   <a
                     key={idx}
-                    href="#"
+                    href={link}
                     className="hover:text-indigo-600 duration-200 ease-in-out"
                   >
                     {link}
